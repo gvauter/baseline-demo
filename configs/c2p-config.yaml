@@ -1,0 +1,6 @@
+component-definition: ./component-definitions/component-definition.json
+plugins:
+  opa:
+    policy-templates: ./policy-templates/opa
+    policy-output: ./policies/opa
+    policy-results: ./policy-results/opa
