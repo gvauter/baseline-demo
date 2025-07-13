@@ -35,10 +35,17 @@ jobs:
         with:
           version: latest
 
-      - name: Generate policy bundle
+      - name: Add GitHub RunID to revision
         run: |
-          c2pcli oscal2policy -c configs/c2p-config.yaml -n nist_800_53 -p $(go env GOPATH)/bin
-          opa build policies/opa --revision "1.0" -o my-compliance-bundle.tar.gz
+          sed -i "s/{{ RUNID }}/${{ github.run_id }}/g" configs/c2p-config.yaml
+
+      - name: Generate policy bundle
+        run: c2pcli oscal2policy -c configs/c2p-config.yaml -n nist_800_53 -p $(go env GOPATH)/bin
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: policy-bundle
+          path: my-compliance-bundle.tar.gz
 
       - name: Setup snappy
         uses: carabiner-dev/actions/install/snappy@HEAD

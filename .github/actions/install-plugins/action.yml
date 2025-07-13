@@ -63,6 +63,17 @@ runs:
               "name": "policy-results",
               "description": "A directory where OPA results are located.",
               "required": true
+            },
+            {
+              "name": "bundle",
+              "description": "A location for an opa policy bundle. If unset, no bundle is created.",
+              "required": false
+            },
+            {
+              "name": "bundle-revision",
+              "description": "A bundle revision if a bundle is created.",
+              "required": false,
+              "default": "1.0"
             }
           ]
         }
