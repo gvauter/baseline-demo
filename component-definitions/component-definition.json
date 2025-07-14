@@ -29,7 +29,7 @@
           {
             "name": "Parameter_Id",
             "ns": "https://oscal-compass.github.io/compliance-trestle/schemas/oscal/cd",
-            "value": "main_branch_min_approvals\"",
+            "value": "main_branch_min_approvals",
             "remarks": "rule_set_00"
           },
           {

@@ -52,7 +52,7 @@ jobs:
 
       - name: Retrieve data
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORG: ${{ github.event.repository.owner.login }}
           REPO: ${{ github.event.repository.name }}
         run: |

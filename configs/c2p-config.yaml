@@ -5,4 +5,4 @@ plugins:
     policy-output: ./policies/opa
     policy-results: ./policy-results/opa
     bundle: my-compliance-bundle.tar.gz
-    bundle-version: {{ RUNID }}
+    bundle-revision: {{ RUNID }}
