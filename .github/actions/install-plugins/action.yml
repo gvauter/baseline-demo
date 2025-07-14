@@ -7,7 +7,7 @@ runs:
     - name: Checkout
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
-        ref: 'initial'
+        ref: 'main'
         token: '${{ github.token }}'
         repository: "jpower432/c2p-opa-plugin"
         path: c2p
