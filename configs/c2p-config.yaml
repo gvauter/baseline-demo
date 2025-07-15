@@ -1,4 +1,3 @@
-component-definition: ./component-definitions/component-definition.json
 plugins:
   opa:
     policy-templates: ./policy-templates/opa
@@ -6,3 +5,8 @@ plugins:
     policy-results: ./policy-results/opa
     bundle: my-compliance-bundle.tar.gz
     bundle-revision: {{ RUNID }}
+  kyverno:
+    policy-dir: ./policy-templates/kyverno
+    policy-results-dir: ./policy-results/kyverno
+    temp-dir: /tmp
+    output-dir: ./policies/kyverno

@@ -10,6 +10,12 @@ The goal is to provide consistency for reporting and evidence traceability while
 # Demo
 
 C2P is designed to support asynchronous workflows.
-For demo simplicity, the translation is run in a single workflow called "Generate Posture".
-In real world use cases, C2P would be used to generate policy for review, merge, and delivery and
-results would be collected and aggregated on-demand.
+
+## Evaluate
+
+For to demonstrate the evaluation of a single component, the translation is run in a single workflow called "Evaluate".
+
+## Audit
+
+In real world audit use cases, C2P could be used to generate policy for review, merge, and delivery and
+stored results/evidence could be collected and aggregated on-demand using an Assessment Plan to filter/mapping relevant evidence to controls.
