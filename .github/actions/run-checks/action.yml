@@ -19,7 +19,9 @@ runs:
         REPO: ${{ github.event.repository.name }}
       run: |
         snappy snap builtin:github/branch-rules.yaml -v ORG="$ORG" -v REPO="$REPO" -v BRANCH='main' > input.json
+      shell: bash
 
     - name: Evaluate
       run:
         opa eval -b my-compliance-bundle.tar.gz --input input.json 'data.branch_protection' | tee policy-results/opa/github-branch-protection.json
+      shell: bash
