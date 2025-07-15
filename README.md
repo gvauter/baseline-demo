@@ -14,7 +14,7 @@ C2P is designed to support asynchronous workflows.
 ## Evaluate
 
 To demonstrate the evaluation of a single component, C2P transformations are run in a single workflow called "Evaluate" with an OSCAL Component Definition as
-an iutput.
+an input.
 
 ## Audit
 
