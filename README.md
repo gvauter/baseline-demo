@@ -13,9 +13,11 @@ C2P is designed to support asynchronous workflows.
 
 ## Evaluate
 
-For to demonstrate the evaluation of a single component, the translation is run in a single workflow called "Evaluate".
+To demonstrate the evaluation of a single component, C2P transformations are run in a single workflow called "Evaluate" with an OSCAL Component Definition as
+an input.
 
 ## Audit
 
-In real world audit use cases, C2P could be used to generate policy for review, merge, and delivery and
-stored results/evidence could be collected and aggregated on-demand using an Assessment Plan to filter/mapping relevant evidence to controls.
+In audit use cases, C2P could be used in a multi-step policy workflow with steps including:
+- Generate policy for review, merge, and delivery and
+- Collected and aggregate stored results/evidence on-demand using an OSCAL Assessment Plan as input to filter evidence and map relevant evidence to controls.
