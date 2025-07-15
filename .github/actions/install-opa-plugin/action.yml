@@ -1,5 +1,5 @@
-name: "install-plugins"
-description: "Install C2P Plugins"
+name: "install-opa-plugin"
+description: "Install OPA Plugin"
 
 runs:
   using: "composite"
@@ -10,7 +10,8 @@ runs:
         ref: 'main'
         token: '${{ github.token }}'
         repository: "jpower432/c2p-opa-plugin"
-        path: c2p
+        path: c2p-opa
+        persist-credentials: false
 
     - name: Set up Go
       uses: actions/setup-go@3041bf56c941b39c61721a86cd11f3bb1338122a # v5.2.0
@@ -20,19 +21,19 @@ runs:
         check-latest: true
 
     - name: Build
-      working-directory: c2p
+      working-directory: c2p-opa
       run: go build -o ./bin/opa-plugin ./cmd/opa-plugin
       shell: bash
 
     - name: Add to path
-      working-directory: c2p
+      working-directory: c2p-opa
       run: |
         cp ./bin/opa-plugin  $(go env GOPATH)/bin/opa-plugin
         echo $(go env GOPATH)/bin >> $GITHUB_PATH
       shell: bash
 
     - name: Generate manifest
-      working-directory: c2p
+      working-directory: c2p-opa
       run: |
         checksum=$(sha256sum "$(go env GOPATH)/bin/opa-plugin" | cut -d ' ' -f 1 )
         cat >  "$(go env GOPATH)/bin/c2p-opa-manifest.json" << EOF

@@ -1,4 +1,4 @@
-name: Generate Posture
+name: Audit
 
 on:
   workflow_dispatch:
@@ -6,8 +6,7 @@ on:
     branches:
       - 'main'
     paths:
-      - component-definitions/**
-      - policy-templates/**
+      - assessment-plans/**
 
 permissions: {}
 
@@ -27,8 +26,11 @@ jobs:
       - name: Setup c2pcli
         uses: jpower432/c2p-actions/actions/setup-c2pcli@HEAD
 
-      - name: Install C2P plugins
-        uses: ./.github/actions/install-plugins
+      - name: Install OPA plugin
+        uses: ./.github/actions/install-opa-plugin
+
+      - name: Install Kyverno plugin
+        uses: ./.github/actions/install-kyverno-plugin
 
       - name: Setup OPA
         uses: open-policy-agent/setup-opa@v2
@@ -40,33 +42,20 @@ jobs:
           sed -i "s/{{ RUNID }}/${{ github.run_id }}/g" configs/c2p-config.yaml
 
       - name: Generate policy bundle
-        run: c2pcli oscal2policy -c configs/c2p-config.yaml -n nist_800_53 -p $(go env GOPATH)/bin
+        run: c2pcli oscal2policy -c configs/c2p-config.yaml -a assessment-plans/assessment-plan.json -p $(go env GOPATH)/bin
 
       - uses: actions/upload-artifact@v4
         with:
           name: policy-bundle
           path: my-compliance-bundle.tar.gz
 
-      - name: Setup snappy
-        uses: carabiner-dev/actions/install/snappy@HEAD
-
-      - name: Retrieve data
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORG: ${{ github.event.repository.owner.login }}
-          REPO: ${{ github.event.repository.name }}
-        run: |
-          snappy snap builtin:github/branch-rules.yaml -v ORG="$ORG" -v REPO="$REPO" -v BRANCH='main' > input.json
-
-      - name: Evaluate
-        run:
-          opa eval -b my-compliance-bundle.tar.gz --input input.json 'data.branch_protection' | tee policy-results/opa/github-branch-protection.json
+      - uses: ./.github/actions/run-checks
 
       - name: Aggregate results
-        run: c2pcli result2oscal -c configs/c2p-config.yaml -n nist_800_53 -p $(go env GOPATH)/bin
+        run: c2pcli result2oscal -c configs/c2p-config.yaml -a assessment-plans/assessment-plan.json -p $(go env GOPATH)/bin
 
       # Post summary on GitHub action summary
       - name: Summary
         run: |
           wget https://raw.githubusercontent.com/usnistgov/oscal-content/release-v1.0.5-update/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json -O catalog.json
-          c2pcli oscal2posture -c configs/c2p-config.yaml --assessment-results assessment-results.json -n nist_800_53 --catalog catalog.json >> $GITHUB_STEP_SUMMARY
+          c2pcli oscal2posture -c configs/c2p-config.yaml -r assessment-results.json -a assessment-plans/assessment-plan.json --catalog catalog.json >> $GITHUB_STEP_SUMMARY

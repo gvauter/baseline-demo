@@ -1,0 +1,25 @@
+name: "Run Checks"
+description: "Run directory checks in the GitHub Repository"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup snappy
+      uses: carabiner-dev/actions/install/snappy@HEAD
+
+    - name: Setup OPA
+      uses: open-policy-agent/setup-opa@v2
+      with:
+        version: latest
+
+    - name: Retrieve data
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        ORG: ${{ github.event.repository.owner.login }}
+        REPO: ${{ github.event.repository.name }}
+      run: |
+        snappy snap builtin:github/branch-rules.yaml -v ORG="$ORG" -v REPO="$REPO" -v BRANCH='main' > input.json
+
+    - name: Evaluate
+      run:
+        opa eval -b my-compliance-bundle.tar.gz --input input.json 'data.branch_protection' | tee policy-results/opa/github-branch-protection.json
