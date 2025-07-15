@@ -23,6 +23,7 @@ runs:
   - name: Build plugins
     working-directory: c2p-kyverno
     run: make build-plugins
+    shell: bash
 
   - name: Add to path
     working-directory: c2p-kyverno
