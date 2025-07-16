@@ -19,5 +19,5 @@ an input.
 ## Audit
 
 In audit use cases, C2P could be used in a multi-step policy workflow with steps including:
-- Generate policy for review, merge, and delivery and
-- Collected and aggregate stored results/evidence on-demand using an OSCAL Assessment Plan as input to filter evidence and map relevant evidence to controls.
+- Generate policy for review, merge, and delivery
+- Collect and aggregate stored results/evidence on-demand using an OSCAL Assessment Plan as input to filter evidence and map relevant evidence to controls.
