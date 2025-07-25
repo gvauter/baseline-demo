@@ -24,6 +24,6 @@ require (
 )
 
 replace (
-	github.com/jpower432/gemara2oscal => github.com/jpower432/gemara2oscal v0.0.0-20250724232904-6161445443c8
+	github.com/jpower432/gemara2oscal => github.com/jpower432/gemara2oscal v0.0.0-20250725173854-1b1284288a17
 	github.com/ossf/gemara => github.com/jpower432/sci v0.0.0-20250724232228-cbb132d4c438
 )

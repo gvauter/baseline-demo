@@ -6,9 +6,9 @@ import (
 
 func New() *cobra.Command {
 	command := &cobra.Command{
-		Use:   "demo",
-		Short: "Demo CLI",
+		Use:   "transform",
+		Short: "transform CLI",
 	}
-	command.AddCommand(NewTransformCommand())
+	command.AddCommand(NewComponentCommand(), NewCatalogCommand())
 	return command
 }

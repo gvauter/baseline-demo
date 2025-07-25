@@ -35,7 +35,8 @@ jobs:
       - name: Create Component Definition
         run: |
           go build -C cmd/  -o ../gemara-transformer
-          ./gemara-transformer transform -t "GitHub Repository" -v "opa" > component-definition.json
+          ./gemara-transformer component -t "GitHub Repository" -v "opa" > component-definition.json
+          ./gemara-transformer catalog > catalog.json
 
       - name: Setup c2pcli
         uses: jpower432/c2p-actions/actions/setup-c2pcli@HEAD
@@ -62,6 +63,4 @@ jobs:
 
       # Post summary on GitHub action summary
       - name: Summary
-        run: |
-          wget https://raw.githubusercontent.com/usnistgov/oscal-content/release-v1.0.5-update/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json -O catalog.json
-          c2pcli oscal2posture -c configs/c2p-config.yaml -r assessment-results.json -d component-definition.json -n 800-161 --catalog catalog.json >> $GITHUB_STEP_SUMMARY
+        run: c2pcli oscal2posture -c configs/c2p-config.yaml -r assessment-results.json -d component-definition.json -n 800-161 --catalog catalog.json >> $GITHUB_STEP_SUMMARY

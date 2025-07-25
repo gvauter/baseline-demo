@@ -6,22 +6,20 @@ import (
 	"os"
 	"path/filepath"
 
+	oscalTypes "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-3"
 	"github.com/goccy/go-yaml"
 	"github.com/jpower432/gemara2oscal/component"
+	"github.com/ossf/gemara/layer2"
 	"github.com/ossf/gemara/layer4"
 	"github.com/spf13/cobra"
-
-	oscalTypes "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-3"
-
-	"github.com/ossf/gemara/layer2"
 )
 
-func NewTransformCommand() *cobra.Command {
+func NewComponentCommand() *cobra.Command {
 
 	var catalogPath, targetComponent, componentType, validatorID, evaluationsPath string
 
 	command := &cobra.Command{
-		Use:   "transform",
+		Use:   "component",
 		Short: "Transform Gemara artifacts to OSCAL Component Definitions",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			builder := component.NewDefinitionBuilder("Example", "0.1.0")
