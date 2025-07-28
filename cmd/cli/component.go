@@ -10,13 +10,14 @@ import (
 	"github.com/goccy/go-yaml"
 	"github.com/jpower432/gemara2oscal/component"
 	"github.com/ossf/gemara/layer2"
+	"github.com/ossf/gemara/layer3"
 	"github.com/ossf/gemara/layer4"
 	"github.com/spf13/cobra"
 )
 
 func NewComponentCommand() *cobra.Command {
 
-	var catalogPath, targetComponent, componentType, validatorID, evaluationsPath string
+	var catalogPath, targetComponent, componentType, validatorID, evaluationsPath, policyPath string
 
 	command := &cobra.Command{
 		Use:   "component",
@@ -60,7 +61,27 @@ func NewComponentCommand() *cobra.Command {
 
 			builder = builder.AddTargetComponent(targetComponent, componentType, layer2Catalog)
 			builder = builder.AddValidationComponent(validatorID, evaluationSuites)
+
 			compDef := builder.Build()
+
+			if policyPath != "" {
+				cleanedPath := filepath.Clean(policyPath)
+				policyData, err := os.ReadFile(cleanedPath)
+				if err != nil {
+					return err
+				}
+
+				var layer3Policy layer3.PolicyDocument
+				err = yaml.Unmarshal(policyData, &layer3Policy)
+				if err != nil {
+					return err
+				}
+
+				for _, ref := range layer3Policy.ControlReferences {
+					builder = builder.AddParameterModifiers(ref.ReferenceId, ref.ParameterModifications)
+				}
+			}
+
 			oscalModels := oscalTypes.OscalModels{
 				ComponentDefinition: &compDef,
 			}
@@ -79,5 +100,6 @@ func NewComponentCommand() *cobra.Command {
 	flags.StringVarP(&targetComponent, "target-component", "t", "", "Title for target component for evaluation")
 	flags.StringVar(&componentType, "component-type", "software", "Component type (based on valid OSCAL component types)")
 	flags.StringVarP(&validatorID, "validator-id", "v", "", "Validation plugin id")
+	flags.StringVarP(&policyPath, "policy-path", "p", "./policy.yaml", "Path to Layer 3 policy")
 	return command
 }

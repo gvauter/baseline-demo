@@ -18,12 +18,9 @@ require (
 
 require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/jpower432/gemara2oscal v0.0.0-20250722224442-8cc85465c4a1
+	github.com/jpower432/gemara2oscal v0.0.0-20250728224220-30502c20dce8
 	github.com/ossf/gemara v0.0.0
 	github.com/spf13/pflag v1.0.6 // indirect
 )
 
-replace (
-	github.com/jpower432/gemara2oscal => github.com/jpower432/gemara2oscal v0.0.0-20250725173854-1b1284288a17
-	github.com/ossf/gemara => github.com/jpower432/sci v0.0.0-20250724232228-cbb132d4c438
-)
+replace github.com/ossf/gemara => github.com/jpower432/sci v0.0.0-20250724232228-cbb132d4c438
