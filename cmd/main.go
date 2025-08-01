@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/jpower432/c2p-demo/cmd/cli"
+	"github.com/complytime/baseline-demo/cmd/cli"
 )
 
 func main() {
