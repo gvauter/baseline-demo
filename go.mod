@@ -1,4 +1,4 @@
-module github.com/jpower432/c2p-demo
+module github.com/complytime/baseline-demo
 
 go 1.24.4
 
@@ -23,4 +23,5 @@ require (
 	github.com/spf13/pflag v1.0.6 // indirect
 )
 
+// Temporarily pointing to a fork for compatabilty.
 replace github.com/ossf/gemara => github.com/jpower432/sci v0.0.0-20250724232228-cbb132d4c438
