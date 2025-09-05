@@ -1,14 +1,20 @@
-# This is adapted for testing purpose only
-# Created by: Gemini 2.5 Pro
+# This document is adapted for testing purpose only
+# Assisted by: Gemini 2.5 Pro
 metadata:
-  id: NIST-SP-800-161r1-custom
-  title: NIST SP 800-161r1 Custom C-SCRM Control Set
+  id: 800-161
+  title: NIST SP 800-161r1 (C-SCRM)
   description: A selection of controls from NIST SP 800-161r1, focusing on the supplemental guidance for Cybersecurity Supply Chain Risk Management (C-SCRM).
   author: Gemini
   version: '1.0'
   publication-date: '2025-07-26'
   last-modified: '2025-07-26 15:00:00'
   document-type: Framework
+  imported-guidelines:
+    - id: 800-53
+      title: NIST SP 800-53 Rev 5.2.0 Controls and SP 800-53A Rev 5.2.0 Assessment Procedures
+      version: "5.1.1"
+      url: https://github.com/usnistgov/oscal-content/blob/main/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json
+      description: Security and Privacy Controls for Information Systems and Organizations
   resources:
     - id: nist-sp-800-161r1
       title: Cybersecurity Supply Chain Risk Management Practices for Systems and Organizations
@@ -96,4 +102,4 @@ categories:
       see-also:
         - RA-9
       external-references:
-            - nist-sp-800-161r1
+        - nist-sp-800-161r1

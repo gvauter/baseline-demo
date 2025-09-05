@@ -1,0 +1,70 @@
+name: Report
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+
+permissions: {}
+
+env:
+  COMPDEF: "component-definition-${{ github.run_id }}.json"
+  FRAMEWORK: "SSDF"
+
+jobs:
+  generate-posture:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@3041bf56c941b39c61721a86cd11f3bb1338122a # v5.2.0
+        with:
+          go-version: '1.24'
+          cache: false
+          check-latest: true
+
+      - name: Setup c2pcli
+        uses: jpower432/c2p-actions/actions/setup-c2pcli@0bc42f492f3a6854fe0afc99c50100db8f5e17c6 # main
+        with:
+          c2p-version: 'main'
+
+      - name: Install C2P plugins
+        uses: ./.github/actions/install-conforma-plugin
+        with:
+          version: 'conforma-update'
+
+      - uses: ./.github/actions/run-checks
+
+      - name: Create Component Definition
+        run: |
+          go build -C cmd/  -o ../gemara-transformer
+          ./gemara-transformer component -t "GitHub Repository" -v "conforma" > "${COMPDEF}"
+
+      - name: Add GitHub ORG to config
+        env:
+          ORG: ${{ github.event.repository.owner.login }}
+        run: sed -i "s/{{ ORG }}/$ORG/g" configs/c2p-config.yaml
+
+      - name: Aggregate results
+        run: c2pcli result2oscal -c configs/c2p-config.yaml  -d "${COMPDEF}" -n "${FRAMEWORK}" -p $(go env GOPATH)/bin
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: component-definition
+          path: ${{ env.COMPDEF }}
+          retention-days: 5
+
+      # Post summary on GitHub action summary
+      - name: Summary
+        run: |
+          wget https://raw.githubusercontent.com/usnistgov/oscal-content/refs/heads/main/nist.gov/SP800-218/ver1/json/NIST_SP800-218_ver1_catalog.json -O catalog.json
+          c2pcli oscal2posture -c configs/c2p-config.yaml -r assessment-results.json -d "${COMPDEF}" -n "${FRAMEWORK}" --catalog catalog.json >> $GITHUB_STEP_SUMMARY
