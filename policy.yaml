@@ -11,3 +11,12 @@ sources:
   data: []
   ruleData:
     main_branch_min_approvals: "1"
+- name: OSPS-VM-02.01
+  config:
+    include:
+    - security_insights_vuln_contact
+  policy:
+    - github.com/conforma/policy//policy/lib
+    - oci::ghcr.io/jpower432/opa-bundle:dev
+  data: []
+    
