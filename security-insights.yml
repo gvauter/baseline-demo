@@ -1,0 +1,6 @@
+schema-version: "1.0.0"
+project:
+  name: "baseline-demo"
+
+vulnerability_reporting:
+  contact: "security@foo.com"
