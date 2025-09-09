@@ -63,6 +63,12 @@ jobs:
           path: ${{ env.COMPDEF }}
           retention-days: 5
 
+      - name: Show Security Insights findings
+        if: ${{ hashFiles('policy-results/opa/security_insights_vuln_contact.json') != '' }}
+        run: |
+          echo '## Security Insights findings' >> $GITHUB_STEP_SUMMARY
+          cat policy-results/opa/security_insights_vuln_contact.json >> $GITHUB_STEP_SUMMARY
+
       # Post summary on GitHub action summary
       - name: Summary
         run: |
