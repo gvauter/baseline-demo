@@ -59,6 +59,19 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
+          name: assessment-results
+          path: assessment-results.json
+          retention-days: 5
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ hashFiles('policy-results/opa/**') != '' }}
+        with:
+          name: policy-results-raw
+          path: policy-results/opa
+          retention-days: 5
+
+      - uses: actions/upload-artifact@v4
+        with:
           name: component-definition
           path: ${{ env.COMPDEF }}
           retention-days: 5
