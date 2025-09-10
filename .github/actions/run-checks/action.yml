@@ -63,6 +63,6 @@ runs:
       with:
         args: >
           validate input
-          --policy "policy.yaml"
+          --policy "si-policy.yaml"
           --file security-insights.json
           --output json=policy-results/opa/security_insights_vuln_contact.json
