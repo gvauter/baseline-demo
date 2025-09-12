@@ -9,4 +9,13 @@
             state in GitHub by creating a snapshot of the state from the API
             and checks the output with an OPA policy to ensure the outcome
             meets the baseline requirement.
+    - requirement-id: OSPS-VM-02.01
+      procedures:
+        - id: "security_insights_vuln_contact"
+          name: "Vulnerability Reporting Contact Present"
+          description: |
+            The procedure performs an automated check of the
+            security-insights YAML file with an OPA policy to
+            ensure the vulnerability-reporting data includes
+            contact information.
 

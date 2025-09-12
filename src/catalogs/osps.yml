@@ -109,3 +109,66 @@ control-families:
               - id: main_branch_min_approvals
                 description: Minimum approvals on the default branch
                 default: 1
+      - id: OSPS-VM-02
+        title: |
+          The project MUST publish contacts and process for reporting
+          vulnerabilities.
+        objective: |
+          Reports from researchers and users are an important source for identifying
+          vulnerabilities in a project. People with vulnerabilities to report should
+          have a clear understanding of the process so that they can quickly submit
+          the report to the project.
+        guideline-mappings:
+          - reference-id: BPB
+            entries:
+              - reference-id: B-S-8
+          - reference-id: CRA
+            entries:
+              - reference-id: 2.5
+          - reference-id: SSDF
+            entries:
+              - reference-id: RV.1.3
+          - reference-id: CSF
+            entries:
+              - reference-id: GV.PO-01
+              - reference-id: GV.PO-02
+              - reference-id: ID.RA-01
+          - reference-id: ISO-18974
+            entries:
+              - reference-id: 4.1.1
+              - reference-id: 4.1.3
+              - reference-id: 4.1.5
+              - reference-id: 4.2.2
+          - reference-id: OpenCRE
+            entries:
+              - reference-id: 464-513
+          - reference-id: Scorecard
+            entries:
+              - reference-id: Security-Policy
+          - reference-id: SAMM
+            entries:
+              - reference-id: Governance -Policy&Compliance -Policy&Standards Lvl2
+          - reference-id: PCIDSS
+            entries:
+              - reference-id: 6.3.3
+              - reference-id: 12.1.1
+              - reference-id: 12.10.2
+          - reference-id: UKSSCOP
+            entries:
+              - reference-id: 3.2
+          - reference-id: 800-161
+            entries:
+              - reference-id: IR-1
+              - reference-id: IR-4
+              - reference-id: IR-6
+              - reference-id: IR-8                
+        assessment-requirements:
+          - id: OSPS-VM-02.01
+            text: |
+              While active, the project documentation MUST contain
+              security contacts.
+            applicability:
+              - Maturity Level 1
+            recommendation: |
+              Create a security.md (or similarly-named) file that contains security
+              contacts for the project.

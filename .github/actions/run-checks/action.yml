@@ -24,6 +24,20 @@ runs:
         snappy snap builtin:github/branch-rules.yaml -v ORG="$ORG" -v REPO="$REPO" -v BRANCH='main' > input.json
       shell: bash
 
+    - name: Install yq
+      run: |
+        YQ_VERSION=v4.44.3
+        sudo wget -qO /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64"
+        sudo chmod +x /usr/local/bin/yq
+      shell: bash
+
+    - name: Build Security Insights input
+      run: |
+        if [ -f security-insights.yml ]; then
+          yq -o=json security-insights.yml > security-insights.json
+        fi
+      shell: bash
+
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v3
       with:
@@ -41,3 +55,14 @@ runs:
           --policy "policy.yaml"
           --file input.json
           --output json=policy-results/opa/github_branch_protection.json
+
+    - name: Run EC Validate (Security Insights)
+      uses: docker://quay.io/conforma/cli:snapshot@sha256:1c4ffca9efd28ff7cecff23787c78c9a11ff513c5c0d6ff1cd78502e0a64ea28
+      id: ec_validate_security_insights
+      continue-on-error: true
+      with:
+        args: >
+          validate input
+          --policy "policy.yaml"
+          --file security-insights.json
+          --output json=policy-results/opa/security_insights_vuln_contact.json
